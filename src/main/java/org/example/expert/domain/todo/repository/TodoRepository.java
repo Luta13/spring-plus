@@ -1,5 +1,6 @@
 package org.example.expert.domain.todo.repository;
 
+import org.example.expert.domain.comment.entity.Comment;
 import org.example.expert.domain.todo.entity.Todo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,11 +26,13 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
     @Query("SELECT t FROM Todo t " +
             "WHERE (:weather IS NULL OR t.weather = :weather) " +
             "AND (:createdAt IS NULL OR t.modifiedAt >= :createdAt) " +
-            "AND (:modifiedAt IS NULL OR t.modifiedAt <= :modifiedAt)")
+            "AND (:modifiedAt IS NULL OR t.modifiedAt <= :modifiedAt) ORDER BY t.modifiedAt")
     Page<Todo> findTodos(
             @Param("weather") String weather,
             @Param("createdAt") LocalDate startDate,
             @Param("modifiedAt") LocalDate endDate,Pageable pageable
     );
+
+
 
 }
