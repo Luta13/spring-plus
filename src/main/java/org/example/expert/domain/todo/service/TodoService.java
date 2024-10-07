@@ -17,6 +17,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 @Service
 @RequiredArgsConstructor
 public class TodoService {
@@ -50,7 +54,11 @@ public class TodoService {
     public Page<TodoResponse> getTodos(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        Page<Todo> todos = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
+        //Page<Todo> todos = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
+        Page<Todo> todos = todoRepository.findTodos("맑음",
+                LocalDate.parse("2024-09-01"),
+                LocalDate.parse("2024-09-01"),
+                pageable);
 
         return todos.map(todo -> new TodoResponse(
                 todo.getId(),
