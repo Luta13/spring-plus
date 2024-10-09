@@ -5,5 +5,5 @@ import org.example.expert.domain.todo.entity.Todo;
 import java.util.List;
 
 public interface TodoQueryRepository {
-   Todo findByIdWithUserQueryDsl(long todoId);
+   Todo findByIdWithUserQueryDsl(Long todoId);
 }

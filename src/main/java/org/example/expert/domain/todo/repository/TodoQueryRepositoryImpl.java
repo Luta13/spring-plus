@@ -1,5 +1,6 @@
 package org.example.expert.domain.todo.repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.todo.entity.Todo;
@@ -15,8 +16,13 @@ public class TodoQueryRepositoryImpl implements TodoQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Todo findByIdWithUserQueryDsl(long todoId) {
-        return jpaQueryFactory.selectFrom(todo).join(todo.user).fetchJoin().where(todo.id.eq(todoId)).fetchOne();
+    public Todo findByIdWithUserQueryDsl(Long todoId) {
+        return jpaQueryFactory.selectFrom(todo).join(todo.user).fetchJoin().where(todoIdEq(todoId)).fetchOne();
 
+    }
+
+    private BooleanExpression todoIdEq(Long todoId)
+    {
+        return todoId != null ? todo.id.eq(todoId) : null;
     }
 }
